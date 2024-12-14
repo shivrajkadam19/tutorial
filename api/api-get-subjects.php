@@ -5,19 +5,21 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $query = "SELECT `CourseID`, `CourseName`,`Description` FROM `course`";
+    $query = "SELECT s.SubjectName, c.CourseName FROM subject s 
+              INNER JOIN course c ON s.CourseID = c.CourseID";
 
     if ($result = $conn->query($query)) {
-        $courses = [];
+        $subjects = [];
         while ($row = $result->fetch_assoc()) {
-            $courses[] = $row;
+            $subjects[] = $row;
         }
-        echo json_encode(['success' => true, 'courses' => $courses]);
+        echo json_encode(['success' => true, 'subjects' => $subjects]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to fetch courses.']);
+        echo json_encode(['success' => false, 'message' => 'Failed to fetch subjects.', 'error' => $conn->error]);
     }
 
     $conn->close();
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
 }
+?>

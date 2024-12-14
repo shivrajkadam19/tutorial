@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+session_start();
+
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+  echo "<script>" . "window.location.href='auth-login.php';" . "</script>";
+  exit;
+}
+?>
+
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
@@ -141,7 +150,7 @@
                 e.preventDefault();
                 let formData = new FormData(this);
                 $.ajax({
-                    url: "process_upload.php",
+                    url: "http://localhost/tutorial/admin/api/api-process-upload.php",
                     type: "POST",
                     data: formData,
                     contentType: false,
@@ -207,7 +216,7 @@
                     });
                 });
                 $.ajax({
-                    url: "save_questions.php",
+                    url: "http://localhost/tutorial/admin/api/api-save-questions.php",
                     type: "POST",
                     data: {
                         questions: JSON.stringify(questions)

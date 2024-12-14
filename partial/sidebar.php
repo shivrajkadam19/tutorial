@@ -14,6 +14,9 @@
                 <a href="./courses.php" class="nav-link"><i data-feather="monitor"></i><span>Courses</span></a>
             </li>
             <li class="dropdown">
+                <a href="./subjects.php" class="nav-link"><i data-feather="monitor"></i><span>Subjects</span></a>
+            </li>
+            <li class="dropdown">
                 <a href="./upload_questions.php" class="nav-link"><i data-feather="monitor"></i><span>Questions Upload</span></a>
             </li>
         </ul>
