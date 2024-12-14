@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Query to check user by email or username
-    $sql = "SELECT * FROM `admin` WHERE `email` = ? OR `username` = ?";
+    $sql = "SELECT * FROM `admin` WHERE `Email` = ? OR `UserName` = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $login, $login);
     $stmt->execute();
@@ -25,13 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
+        if (password_verify($password, $user['Password'])) {
             // Login success, set session and respond
             session_start();
             $_SESSION['loggedin'] = true;
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['username'] = $user['username'];
+            $_SESSION['user_id'] = $user['AdminID'];
+            $_SESSION['email'] = $user['Email'];
+            $_SESSION['username'] = $user['UserName'];
 
             echo json_encode(['success' => true, 'message' => 'Login successful']);
         } else {

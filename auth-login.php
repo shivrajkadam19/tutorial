@@ -74,7 +74,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
               </div>
             </div>
             <div class="mt-5 text-muted text-center">
-              Don't have an account? <a href="auth-register.html">Create One</a>
+              Don't have an account? <a href="auth-register.php">Create One</a>
             </div>
           </div>
         </div>
@@ -120,7 +120,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
           success: function (response) {
             if (response.success) {
               // Redirect on success
-              window.location.href = 'index.php';
+              window.location.href = './';
             } else {
               // Show error message
               alert(response.message);

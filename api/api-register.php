@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
     // Insert into the database
-    $sql = "INSERT INTO `admin` (`username`, `email`, `password`, `created_at`,`updated_at`) VALUES (?, ?, ?, NOW(),NOW())";
+    $sql = "INSERT INTO `admin` (`UserName`, `Email`, `Password`, `CreatedAt`,`UpdatedAt`) VALUES (?, ?, ?, NOW(),NOW())";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("sss", $username, $email, $hashedPassword);
 

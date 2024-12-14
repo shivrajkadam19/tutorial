@@ -67,7 +67,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
                 </form>
               </div>
               <div class="mb-4 text-muted text-center">
-                Already Registered? <a href="auth-login.html">Login</a>
+                Already Registered? <a href="auth-login.php">Login</a>
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
           success: function (response) {
             if (response.success) {
               alert(response.message);
-              window.location.href = 'auth-login.html';
+              window.location.href = 'auth-login.php';
             } else {
               alert(response.message);
             }

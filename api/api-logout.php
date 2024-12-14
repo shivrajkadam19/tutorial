@@ -1,19 +1,11 @@
 <?php
-session_start();
+session_start(); // Start the session
 
-header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *');
+// Destroy the session
+session_unset(); // Unset all session variables
+session_destroy(); // Destroy the session itself
 
-try {
-    // Destroy the session
-    session_unset();
-    session_destroy();
-
-    // Send JSON response
-    echo json_encode(['success' => true, 'message' => 'Logged out successfully']);
-} catch (Exception $e) {
-    error_log("Logout error: " . $e->getMessage());
-    echo json_encode(['success' => false, 'message' => 'An error occurred while logging out.']);
-}
+// Redirect to the login page
+header("Location: ../auth-login.php");
 exit;
 ?>
