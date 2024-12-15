@@ -1,8 +1,9 @@
 <?php
-define("DB_SERVER", "localhost");
-define("DB_USERNAME", "root");
-define("DB_PASSWORD", "");
-define("DB_NAME", "quizapp");
+include 'key.php';
+define("DB_SERVER", $server);
+define("DB_USERNAME", $username);
+define("DB_PASSWORD", $password);
+define("DB_NAME", $dbname);
 
 # Connection
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
