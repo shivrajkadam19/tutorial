@@ -5,15 +5,15 @@
 session_start();
 include './partial/key.php';
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    echo "<script>" . "window.location.href='auth-login.php';" . "</script>";
-    exit;
+  echo "<script>window.location.href='auth-login.php';</script>";
+  exit;
 }
 ?>
 
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Admin Dashboard - Subjects</title>
+    <title>Admin Dashboard - Topics</title>
     <link rel="stylesheet" href="assets/css/app.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/components.css">
@@ -25,54 +25,54 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     <div class="loader"></div>
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
-            <?php include './partial/header.php' ?>
+            <?php include './partial/header.php'; ?>
             <?php include './partial/sidebar.php'; ?>
 
             <div class="main-content">
                 <section class="section">
                     <div class="section-body">
 
-                        <!-- Form to Add New Subject -->
-                        <h2>Add New Subject</h2>
+                        <!-- Form to Add New Topic -->
+                        <h2>Add New Topic</h2>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Subject Form</h4>
+                                        <h4>Topic Form</h4>
                                     </div>
                                     <div class="card-body">
-                                        <form id="addSubjectForm">
+                                        <form id="addTopicForm">
                                             <div class="form-group">
-                                                <label for="subjectName">Subject Name</label>
-                                                <input type="text" id="subjectName" class="form-control" required>
+                                                <label for="topicName">Topic Name</label>
+                                                <input type="text" id="topicName" class="form-control" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="courseName">Course</label>
-                                                <select id="courseName" class="form-control" required>
-                                                    <!-- Dynamic Course Options -->
+                                                <label for="subjectName">Subject</label>
+                                                <select id="subjectName" class="form-control" required>
+                                                    <!-- Dynamic Subject Options -->
                                                 </select>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Add Subject</button>
+                                            <button type="submit" class="btn btn-primary">Add Topic</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- DataTable for Subjects -->
-                        <h2>Subjects</h2>
+                        <!-- DataTable for Topics -->
+                        <h2>Topics</h2>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4>Subject List</h4>
+                                        <h4>Topic List</h4>
                                     </div>
                                     <div class="card-body">
-                                        <table id="subjectsTable" class="table table-striped">
+                                        <table id="topicsTable" class="table table-striped">
                                             <thead>
                                                 <tr>
+                                                    <th>Topic Name</th>
                                                     <th>Subject Name</th>
-                                                    <th>Course Name</th>
                                                     <th>Actions</th>
                                                 </tr>
                                             </thead>
@@ -87,7 +87,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     </div>
                 </section>
 
-                <?php include './partial/site-settings.php' ?>
+                <?php include './partial/site-settings.php'; ?>
             </div>
             <?php include './partial/footer.php'; ?>
         </div>
@@ -103,22 +103,22 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
     <script>
         $(document).ready(function() {
+            // Populate Subject Dropdown
             const baseUrl = '<?php echo $url; ?>';
-            // Populate Course Dropdown
+            
             $.ajax({
-                url: baseUrl + "/api-get-courses.php",
+                url: baseUrl + "/api-get-subjects.php",
                 type: 'GET',
                 success: function(response) {
                     if (response.success) {
-                        var courses = response.courses;
-                        var courseSelect = $('#courseName');
+                        var subjects = response.subjects;
+                        var subjectSelect = $('#subjectName');
 
-                        // Populate dropdown with CourseID as value and CourseName as display
-                        courses.forEach(function(course) {
-                            courseSelect.append(`<option value="${course.CourseID}">${course.CourseName}</option>`);
+                        subjects.forEach(function(subject) {
+                            subjectSelect.append(`<option value="${subject.SubjectID}">${subject.SubjectName}</option>`);
                         });
                     } else {
-                        console.error('Failed to load courses');
+                        console.error('Failed to load subjects');
                     }
                 },
                 error: function(xhr) {
@@ -127,26 +127,23 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             });
 
             // Initialize DataTable
-            var table = $('#subjectsTable').DataTable({
+            var table = $('#topicsTable').DataTable({
                 "ajax": {
-                    "url": "http://localhost/tutorial/admin/api/api-get-subjects.php",
+                    "url": "http://localhost/tutorial/admin/api/api-get-topics.php",
                     "dataSrc": function(json) {
                         if (json.success) {
-                            return json.subjects;
+                            return json.topics;
                         } else {
                             console.error(json.message);
                             return [];
                         }
                     }
                 },
-                "columns": [{
-                        "data": "SubjectName"
-                    },
+                "columns": [
+                    { "data": "TopicName" },
+                    { "data": "SubjectName" },
                     {
-                        "data": "CourseName"
-                    },
-                    {
-                        "data": "SubjectID", // Add SubjectID for delete button
+                        "data": "TopicID",
                         "render": function(data, type, row) {
                             return `<button class='btn btn-danger delete' data-id='${data}'>Delete</button>`;
                         }
@@ -154,21 +151,20 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 ]
             });
 
-
-            // Handle Add Subject Form Submission
-            $('#addSubjectForm').on('submit', function(e) {
+            // Handle Add Topic Form Submission
+            $('#addTopicForm').on('submit', function(e) {
                 e.preventDefault();
 
-                var subjectName = $('#subjectName').val();
-                var courseId = $('#courseName').val();
+                var topicName = $('#topicName').val();
+                var subjectId = $('#subjectName').val();
 
                 $.ajax({
-                    url: baseUrl + "/api-add-subjects.php",
+                    url: baseUrl + "/api-add-topics.php",
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({
-                        subjectName: subjectName,
-                        courseId: courseId
+                        topicName: topicName,
+                        subjectId: subjectId
                     }),
                     success: function(response) {
                         if (response.success) {
@@ -179,7 +175,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                                 button: "OK"
                             });
                             table.ajax.reload();
-                            $('#addSubjectForm')[0].reset();
+                            $('#addTopicForm')[0].reset();
                         } else {
                             swal({
                                 title: "Error!",
@@ -192,7 +188,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     error: function(xhr) {
                         swal({
                             title: "Error!",
-                            text: "Failed to add subject. Please try again.",
+                            text: "Failed to add topic. Please try again.",
                             icon: "error",
                             button: "OK"
                         });
@@ -201,30 +197,30 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 });
             });
 
-            // Handle Delete Subject
-            $('#subjectsTable').on('click', '.delete', function() {
-                var subjectId = $(this).data('id'); // Use SubjectID
+            // Handle Delete Topic
+            $('#topicsTable').on('click', '.delete', function() {
+                var topicId = $(this).data('id');
 
                 swal({
                     title: "Are you sure?",
-                    text: "You are about to delete this subject.",
+                    text: `You are about to delete this topic.`,
                     icon: "warning",
                     buttons: ["Cancel", "Yes, Delete"],
                     dangerMode: true
                 }).then((willDelete) => {
                     if (willDelete) {
                         $.ajax({
-                            url: baseUrl + "/api-delete-subjects.php",
+                            url: baseUrl + "/api-delete-topics.php",
                             type: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify({
-                                subjectId: subjectId // Send SubjectID
+                                topicId: topicId
                             }),
                             success: function(response) {
                                 if (response.success) {
                                     swal({
                                         title: "Deleted!",
-                                        text: "The subject has been deleted.",
+                                        text: "The topic has been deleted.",
                                         icon: "success",
                                         button: "OK"
                                     });
@@ -232,7 +228,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                                 } else {
                                     swal({
                                         title: "Error!",
-                                        text: response.message || 'Failed to delete subject.',
+                                        text: response.message || 'Failed to delete topic.',
                                         icon: "error",
                                         button: "OK"
                                     });
@@ -241,7 +237,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                             error: function(xhr) {
                                 swal({
                                     title: "Error!",
-                                    text: "Failed to delete subject. Please try again.",
+                                    text: "Failed to delete topic. Please try again.",
                                     icon: "error",
                                     button: "OK"
                                 });
@@ -253,7 +249,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             });
         });
     </script>
-
 
 </body>
 

@@ -3,7 +3,7 @@
 
 <?php
 session_start();
-
+include './partial/key.php';
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
   echo "<script>" . "window.location.href='auth-login.php';" . "</script>";
   exit;
@@ -110,6 +110,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     <script>
         $(document).ready(function() {
             // Initialize DataTables
+            const baseUrl = '<?php echo $url; ?>';
+
             const table = $("#questionsTable").DataTable({
                 paging: true,
                 searching: true,
@@ -150,7 +152,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 e.preventDefault();
                 let formData = new FormData(this);
                 $.ajax({
-                    url: "http://localhost/tutorial/admin/api/api-process-upload.php",
+                    url: baseUrl + "/api-process-upload.php",
                     type: "POST",
                     data: formData,
                     contentType: false,
@@ -216,7 +218,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                     });
                 });
                 $.ajax({
-                    url: "http://localhost/tutorial/admin/api/api-save-questions.php",
+                    url: baseUrl + "/api-save-questions.php",
                     type: "POST",
                     data: {
                         questions: JSON.stringify(questions)

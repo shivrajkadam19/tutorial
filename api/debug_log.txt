@@ -1,0 +1,30 @@
+Array
+(
+    [quizId] => 3
+    [questions] => [{"QuestionText_EN":"What is HTML?","QuestionText_HI":"HTML क्या है?","Option1_EN":"Markup","Option1_HI":"मार्कअप","Option2_EN":"Language","Option2_HI":"भाषा","Option3_EN":"Script","Option3_HI":"स्क्रिप्ट","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"},{"QuestionText_EN":"What is PHP?","QuestionText_HI":"PHP क्या है?","Option1_EN":"Language","Option1_HI":"भाषा","Option2_EN":"Software","Option2_HI":"सॉफ्टवेयर","Option3_EN":"Tool","Option3_HI":"उपकरण","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"}]
+)
+Array
+(
+    [quizId] => 3
+    [questions] => [{"QuestionText_EN":"What is HTML?","QuestionText_HI":"HTML क्या है?","Option1_EN":"Markup","Option1_HI":"मार्कअप","Option2_EN":"Language","Option2_HI":"भाषा","Option3_EN":"Script","Option3_HI":"स्क्रिप्ट","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"},{"QuestionText_EN":"What is PHP?","QuestionText_HI":"PHP क्या है?","Option1_EN":"Language","Option1_HI":"भाषा","Option2_EN":"Software","Option2_HI":"सॉफ्टवेयर","Option3_EN":"Tool","Option3_HI":"उपकरण","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"}]
+)
+Array
+(
+    [quizId] => 3
+    [questions] => [{"QuestionText_EN":"What is HTML?","QuestionText_HI":"HTML क्या है?","Option1_EN":"Markup","Option1_HI":"मार्कअप","Option2_EN":"Language","Option2_HI":"भाषा","Option3_EN":"Script","Option3_HI":"स्क्रिप्ट","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"},{"QuestionText_EN":"What is PHP?","QuestionText_HI":"PHP क्या है?","Option1_EN":"Language","Option1_HI":"भाषा","Option2_EN":"Software","Option2_HI":"सॉफ्टवेयर","Option3_EN":"Tool","Option3_HI":"उपकरण","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"}]
+)
+Array
+(
+    [quizId] => 3
+    [questions] => [{"QuestionText_EN":"What is HTML?","QuestionText_HI":"HTML क्या है?","Option1_EN":"Markup","Option1_HI":"मार्कअप","Option2_EN":"Language","Option2_HI":"भाषा","Option3_EN":"Script","Option3_HI":"स्क्रिप्ट","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"},{"QuestionText_EN":"What is PHP?","QuestionText_HI":"PHP क्या है?","Option1_EN":"Language","Option1_HI":"भाषा","Option2_EN":"Software","Option2_HI":"सॉफ्टवेयर","Option3_EN":"Tool","Option3_HI":"उपकरण","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"}]
+)
+Array
+(
+    [quizId] => 3
+    [questions] => [{"QuestionText_EN":"What is HTML?","QuestionText_HI":"HTML क्या है?","Option1_EN":"Markup","Option1_HI":"मार्कअप","Option2_EN":"Language","Option2_HI":"भाषा","Option3_EN":"Script","Option3_HI":"स्क्रिप्ट","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"},{"QuestionText_EN":"What is PHP?","QuestionText_HI":"PHP क्या है?","Option1_EN":"Language","Option1_HI":"भाषा","Option2_EN":"Software","Option2_HI":"सॉफ्टवेयर","Option3_EN":"Tool","Option3_HI":"उपकरण","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"}]
+)
+Array
+(
+    [quizId] => 3
+    [questions] => [{"QuestionText_EN":"What is HTML?","QuestionText_HI":"HTML क्या है?","Option1_EN":"Markup","Option1_HI":"मार्कअप","Option2_EN":"Language","Option2_HI":"भाषा","Option3_EN":"Script","Option3_HI":"स्क्रिप्ट","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"},{"QuestionText_EN":"What is PHP?","QuestionText_HI":"PHP क्या है?","Option1_EN":"Language","Option1_HI":"भाषा","Option2_EN":"Software","Option2_HI":"सॉफ्टवेयर","Option3_EN":"Tool","Option3_HI":"उपकरण","Option4_EN":"None","Option4_HI":"कोई नहीं","CorrectOption":"1"}]
+)

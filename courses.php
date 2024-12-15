@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- blank.html  21 Nov 2019 03:54:41 GMT -->
+<?php
+session_start();
+include './partial/key.php';
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    echo "<script>window.location.href='auth-login.php';</script>";
+    exit;
+}
+?>
 
 <head>
     <meta charset="UTF-8">
@@ -97,26 +103,30 @@
     <script src="assets/bundles/datatables/datatables.min.js"></script>
     <script src="assets/bundles/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js"></script>
     <script src="assets/bundles/sweetalert/sweetalert.min.js"></script>
-    <!-- Page Specific JS File -->
-    <script src="assets/js/page/sweetalert.js"></script>
 
     <script>
         $(document).ready(function() {
+            const baseUrl = '<?php echo $url; ?>';
             // Initialize DataTable
             var table = $('#coursesTable').DataTable({
                 "ajax": {
                     "url": "http://localhost/tutorial/admin/api/api-get-courses.php",
-                    "dataSrc": "courses"
+                    "dataSrc": function(json) {
+                        if (json.success) {
+                            return json.courses;
+                        } else {
+                            console.error(json.message);
+                            return [];
+                        }
+                    }
                 },
-                "columns": [{
-                        "data": "CourseName"
-                    },
-                    {
-                        "data": "Description"
-                    },
-                    {
-                        "data": null,
-                        "defaultContent": "<button class='btn btn-danger delete'>Delete</button>"
+                "columns": [
+                    { "data": "CourseName" },
+                    { "data": "Description" },
+                    { "data": "CourseID", 
+                      "render": function(data, type, row) {
+                          return `<button class='btn btn-danger delete' data-id='${data}'>Delete</button>`;
+                      }
                     }
                 ]
             });
@@ -125,12 +135,11 @@
             $('#addCourseForm').on('submit', function(e) {
                 e.preventDefault();
 
-                // Get form values
                 var courseName = $('#courseName').val();
                 var description = $('#description').val();
 
                 $.ajax({
-                    url: 'http://localhost/tutorial/admin/api/api-add-courses.php',
+                    url: baseUrl + "/api-add-courses.php",
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({
@@ -145,8 +154,8 @@
                                 icon: "success",
                                 button: "OK"
                             });
-                            table.ajax.reload(); // Reload table data
-                            $('#addCourseForm')[0].reset(); // Reset form
+                            table.ajax.reload();
+                            $('#addCourseForm')[0].reset();
                         } else {
                             swal({
                                 title: "Error!",
@@ -170,24 +179,22 @@
 
             // Handle Delete Course
             $('#coursesTable').on('click', '.delete', function() {
-                var row = $(this).closest('tr');
-                var courseName = row.find('td:eq(0)').text(); // Get course name
+                var courseId = $(this).data('id');
 
                 swal({
                     title: "Are you sure?",
-                    text: `You are about to delete the course: ${courseName}`,
+                    text: "You are about to delete this course.",
                     icon: "warning",
                     buttons: ["Cancel", "Yes, Delete"],
                     dangerMode: true
                 }).then((willDelete) => {
                     if (willDelete) {
-                        // Simulate a delete AJAX call
                         $.ajax({
-                            url: 'http://localhost/tutorial/admin/api/api-delete-courses.php',
+                            url: baseUrl + "/api-delete-courses.php",
                             type: 'POST',
                             contentType: 'application/json',
                             data: JSON.stringify({
-                                courseName: courseName
+                                courseId: courseId
                             }),
                             success: function(response) {
                                 if (response.success) {
@@ -197,7 +204,7 @@
                                         icon: "success",
                                         button: "OK"
                                     });
-                                    table.ajax.reload(); // Reload table data
+                                    table.ajax.reload();
                                 } else {
                                     swal({
                                         title: "Error!",
@@ -222,9 +229,6 @@
             });
         });
     </script>
-
-
 </body>
-
 
 </html>

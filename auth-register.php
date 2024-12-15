@@ -3,7 +3,7 @@
 
 <?php
 session_start();
-
+include './partial/key.php';
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   header("location: ./");
   exit;
@@ -81,6 +81,8 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   <script src="assets/bundles/jquery-selectric/jquery.selectric.min.js"></script>
   <script>
     $(document).ready(function () {
+      const baseUrl = '<?php echo $url; ?>';
+      
       $('#registerForm').on('submit', function (e) {
         e.preventDefault();
 
@@ -116,7 +118,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
         // AJAX request with JSON
         $.ajax({
-          url: 'http://localhost/tutorial/admin/api/api-register.php',
+          url: baseUrl + "/api-register.php",
           type: 'POST',
           contentType: 'application/json',
           data: requestData,

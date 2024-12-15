@@ -5,17 +5,17 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $query = "SELECT s.SubjectName,s.SubjectID, c.CourseName FROM subject s 
-              INNER JOIN course c ON s.CourseID = c.CourseID";
+    $query = "SELECT t.TopicName, t.TopicID, s.SubjectName FROM topic t 
+              INNER JOIN subject s ON t.SubjectID = s.SubjectID";
 
     if ($result = $conn->query($query)) {
-        $subjects = [];
+        $topics = [];
         while ($row = $result->fetch_assoc()) {
-            $subjects[] = $row;
+            $topics[] = $row;
         }
-        echo json_encode(['success' => true, 'subjects' => $subjects]);
+        echo json_encode(['success' => true, 'topics' => $topics]);
     } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to fetch subjects.', 'error' => $conn->error]);
+        echo json_encode(['success' => false, 'message' => 'Failed to fetch topics.', 'error' => $conn->error]);
     }
 
     $conn->close();

@@ -1,18 +1,10 @@
 <?php
-$host = "localhost";
-$user = "root";
-$password = "";
-$dbname = "QuizApp";
 
-$conn = new mysqli($host, $user, $password, $dbname);
-
-if ($conn->connect_error) {
-    die(json_encode(['success' => false, 'message' => 'Database connection failed.']));
-}
+include '../partial/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $questions = json_decode($_POST['questions'], true);
-    $quiz_id = 1; // Replace with actual quiz ID
+    $quiz_id = 3; // Replace with actual quiz ID
 
     if (!$questions || !is_array($questions)) {
         echo json_encode(['success' => false, 'message' => 'Invalid questions data.']);

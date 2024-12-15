@@ -3,7 +3,7 @@
 
 <?php
 session_start();
-
+include './partial/key.php';
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
   header("location: ./");
   exit;
@@ -92,6 +92,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
   <script>
     $(document).ready(function () {
+      const baseUrl = '<?php echo $url; ?>';
 
       $('form.needs-validation').on('submit', function (e) {
         e.preventDefault(); // Prevent default form submission
@@ -113,7 +114,7 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 
         // AJAX request to backend
         $.ajax({
-          url: 'http://localhost/tutorial/admin/api/api-login.php', // Adjust URL as necessary
+          url: baseUrl + "/api-login.php", // Adjust URL as necessary
           type: 'POST',
           contentType: 'application/json',
           data: requestData,
