@@ -1,13 +1,20 @@
 <?php
-require_once '../partial/config.php'; // Include database connection file
+require_once '../partial/config.php'; // Ensure this path is correct
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
+    $input = file_get_contents('php://input');
+    $data = json_decode($input, true);
 
-    $login = $data['login'] ?? ''; // Can be email or username
+    // Check if JSON decoding succeeded
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        echo json_encode(['success' => false, 'message' => 'Invalid JSON payload']);
+        exit;
+    }
+
+    $login = $data['login'] ?? '';
     $password = $data['password'] ?? '';
 
     // Input validation
@@ -16,17 +23,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Query to check user by email or username
-    $sql = "SELECT * FROM `admin` WHERE `Email` = ? OR `UserName` = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $login, $login);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Check database connection
+    if (!$conn) {
+        echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+        exit;
+    }
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['Password'])) {
-            // Login success, set session and respond
+    // Prepare query to check user by email or username
+    $sql = "SELECT * FROM `admin` WHERE `Email` = ? OR `UserName` = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if (!$stmt) {
+        echo json_encode(['success' => false, 'message' => 'Failed to prepare statement']);
+        exit;
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $login, $login);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+
+        // Verify password
+        if ($password==$user['Password']) {
             session_start();
             $_SESSION['loggedin'] = true;
             $_SESSION['user_id'] = $user['AdminID'];
@@ -41,10 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'message' => 'User not found']);
     }
 
-    $stmt->close();
+    mysqli_stmt_close($stmt);
 } else {
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
 }
 
-$conn->close();
+// Close the connection
+if (isset($conn)) {
+    mysqli_close($conn);
+}
 ?>

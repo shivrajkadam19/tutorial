@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hierarchical Dropdowns</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Dynamic Hierarchical Table</h1>
+
+    <!-- Dropdowns -->
+    <label>Course: </label>
+    <select id="course"><option value="">Select Course</option></select>
+
+    <label>Subject: </label>
+    <select id="subject"><option value="">Select Subject</option></select>
+
+    <label>Topic: </label>
+    <select id="topic"><option value="">Select Topic</option></select>
+
+    <label>Quiz: </label>
+    <select id="quiz"><option value="">Select Quiz</option></select>
+
+    <button id="loadData">Load Data</button>
+
+    <div id="result"></div>
+
+    <script>
+        $(document).ready(function () {
+            loadDropdown('course', 'course'); // Initial Course Load
+
+            function loadDropdown(type, parentID) {
+                let parentVal = $(`#${parentID}`).val();
+                $.getJSON('fetch_dropdowns.php', { type: type, parentID: parentVal }, function (data) {
+                    let dropdown = $(`#${type}`);
+                    dropdown.empty().append('<option value="">Select</option>');
+                    $.each(data, function (i, row) {
+                        dropdown.append(`<option value="${row[`${type}ID`]}">${row[`${type}Name`]}</option>`);
+                    });
+                });
+            }
+
+            $('#course').change(function () {
+                loadDropdown('subject', 'course');
+                clearDropdowns(['topic', 'quiz']);
+            });
+
+            $('#subject').change(function () {
+                loadDropdown('topic', 'subject');
+                clearDropdowns(['quiz']);
+            });
+
+            $('#topic').change(function () {
+                loadDropdown('quiz', 'topic');
+            });
+
+            function clearDropdowns(ids) {
+                ids.forEach(id => $(`#${id}`).html('<option value="">Select</option>'));
+            }
+
+            $('#loadData').click(function () {
+                let filters = {
+                    courseID: $('#course').val(),
+                    subjectID: $('#subject').val(),
+                    topicID: $('#topic').val(),
+                    quizID: $('#quiz').val(),
+                };
+
+                $.getJSON('fetch_data.php', filters, function (data) {
+                    let output = "<table border='1'><tr><th>Course</th><th>Subject</th><th>Topic</th><th>Quiz</th><th>Question</th><th>Option</th><th>Correct</th></tr>";
+                    data.forEach(row => {
+                        output += `<tr>
+                            <td>${row.CourseName || 'N/A'}</td>
+                            <td>${row.SubjectName || 'N/A'}</td>
+                            <td>${row.TopicName || 'N/A'}</td>
+                            <td>${row.QuizName || 'N/A'}</td>
+                            <td>${row.QuestionText_EN || 'N/A'}</td>
+                            <td>${row.OptionText_EN || 'N/A'}</td>
+                            <td>${row.IsCorrect == 1 ? 'Yes' : 'No'}</td>
+                        </tr>`;
+                    });
+                    output += "</table>";
+                    $("#result").html(output);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

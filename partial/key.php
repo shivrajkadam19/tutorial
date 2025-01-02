@@ -7,5 +7,5 @@ $url = 'http://localhost/tutorial/admin/api';
 
 $server = "localhost";
 $username = "root";
-$dbname = "quizapp";
+$dbname = "quizapp2";
 $password = "";
